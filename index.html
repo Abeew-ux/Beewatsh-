@@ -28,7 +28,7 @@ h1 i{color:var(--y)}
 .chips{display:flex;gap:8px;padding:8px 16px;overflow-x:auto}
 .chips button{background:var(--card);border-radius:99px;padding:11px 18px;font-weight:600;white-space:nowrap;border:1px solid var(--line)}
 .chips button.on{background:var(--y);color:#2a1a00;border-color:var(--y)}
-#q{margin:0 16px 6px;width:auto}
+#q,#cq{margin:0 16px 6px;width:auto}
 #grid{flex:1;overflow-y:auto;display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:10px 16px;align-content:start}
 .card{background:var(--card);border-radius:16px;overflow:hidden;cursor:pointer;border:1px solid var(--line)}
 .th{position:relative;aspect-ratio:16/10;background:#241f3a center/cover}
@@ -41,10 +41,10 @@ h1 i{color:var(--y)}
 .star.on{color:var(--y)}
 #empty{grid-column:1/-1;text-align:center;color:var(--mute);padding:40px 10px;display:flex;flex-direction:column;gap:14px;align-items:center}
 footer{border-top:1px solid var(--line);background:#0a0a10}
-#tabs{display:flex}
-#tabs button{flex:1;background:none;color:var(--mute);padding:10px 0;font-size:13px}
-#tabs button.on{color:var(--y);font-weight:700}
-#tabs button span{display:block;font-size:20px}
+.tabs{display:flex}
+.tabs button{flex:1;background:none;color:var(--mute);padding:10px 0;font-size:13px}
+.tabs button.on{color:var(--y);font-weight:700}
+.tabs button span{display:block;font-size:20px}
 #mini{display:flex;align-items:center;gap:10px;margin:0 12px 8px;padding:8px;background:var(--card);border-radius:16px;border:1px solid var(--line)}
 #mini .mt{width:64px;aspect-ratio:16/10;border-radius:10px;background:#241f3a center/cover;flex:none}
 #mini div.i{flex:1;min-width:0;cursor:pointer}
@@ -92,6 +92,46 @@ video{width:100%;aspect-ratio:16/9;display:block;background:#000}
 #vquit{background:var(--card);border:1px solid var(--line);color:var(--t);border-radius:16px;padding:15px 18px;font-weight:700}
 #vlist{width:100%;display:flex;flex-direction:column;gap:10px;align-items:flex-start;color:var(--t)}
 .th span.bad{background:#c0392b}
+.gh{background:var(--card);border:1px solid var(--line);color:var(--t);border-radius:16px;padding:15px 18px;font-weight:700}
+.hint{color:var(--mute);padding:20px 16px}
+#cbody{flex:1;overflow-y:auto}
+#hero{position:relative;margin:8px 16px 4px;border-radius:20px;overflow:hidden;min-height:280px;background:#241f3a center/cover;display:flex;align-items:flex-end}
+#hero:before{content:"";position:absolute;inset:0;background:linear-gradient(to top,#050507 4%,#0000 70%)}
+#hero .hi{position:relative;padding:16px;display:flex;flex-direction:column;gap:8px;width:100%}
+#hero h2{font-size:26px;font-weight:800;line-height:1.1}
+#hero small{color:#ddd}
+.hb{display:flex;gap:8px}
+.hb button{flex:1;padding:13px 10px}
+.row h2{font-size:18px;padding:16px 16px 8px}
+.hs{display:flex;gap:10px;overflow-x:auto;padding:0 16px 4px}
+.pc{flex:none;width:112px;cursor:pointer}
+.pi{aspect-ratio:2/3;border-radius:12px;background:#241f3a center/cover;border:1px solid var(--line)}
+.pc b{display:block;font-size:13px;margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#dposter{aspect-ratio:16/10;border-radius:12px;background:#241f3a center/cover}
+#det[open]{display:flex;flex-direction:column;gap:10px;max-height:90%;overflow-y:auto}
+#det small{color:var(--mute)}
+#det p{color:#ddd;font-size:14px}
+.ttl{flex:1;font-size:26px;font-style:normal;color:var(--t)}
+#sbody{flex:1;overflow-y:auto;padding:8px 16px 16px;display:flex;flex-direction:column;gap:6px}
+#sbody h3{color:var(--mute);font-size:13px;text-transform:uppercase;letter-spacing:.06em;margin:14px 4px 4px}
+.srow{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--card);border:1px solid var(--line);color:var(--t);border-radius:14px;padding:14px;text-align:left;font-weight:600;width:100%}
+.srow small{color:var(--mute);font-weight:400;max-width:55%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pcard2{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px}
+.pcard2 small{color:var(--mute)}
+.bigav{width:60px;height:60px;border-radius:50%;display:grid;place-items:center;font-size:30px;font-weight:800;color:#1a1000;flex:none}
+.avs{display:flex;gap:6px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px}
+.avs button{background:none;color:var(--t);font-size:26px;padding:4px 8px;border:2px solid transparent;border-radius:12px}
+.avs button.on{border-color:var(--y)}
+.sw{width:46px;height:26px;border-radius:99px;background:#3a3750;position:relative;flex:none}
+.sw:after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:left .15s}
+.sw.on{background:var(--y)}
+.sw.on:after{left:23px}
+#deps h3{color:var(--mute);font-size:13px;margin:8px 0 4px}
+.ep{display:flex;gap:6px;margin-bottom:6px}
+.eptx{flex:1;text-align:left;background:var(--card);border:1px solid var(--line);color:var(--t);border-radius:12px;padding:12px 14px;font-weight:600}
+.epg{padding:12px 14px}
+#aerr,#eerr{color:var(--red);font-size:14px;min-height:1em}
+#edh{color:var(--mute);font-size:13px}
 #toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#fff;color:#111;padding:10px 16px;border-radius:99px;font-weight:600;z-index:9;max-width:90%}
 dialog{margin:auto;background:var(--card);color:var(--t);border:1px solid var(--line);border-radius:18px;padding:20px;width:min(340px,90%)}
 dialog::backdrop{background:#000a}
@@ -100,27 +140,39 @@ dialog form{display:flex;flex-direction:column;gap:12px}
 </head>
 <body>
 
-<main id="home" class="screen on">
+<main id="cat" class="screen on">
   <header>
     <div class="logo">
       <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M13 16L37 28L13 40Z" fill="#ffb400" stroke="#ffb400" stroke-width="7" stroke-linejoin="round"/><path d="M5 6l4 6 4-7 4 7 4-6-2 10H7z" fill="#ffb400"/></svg>
       <div><h1>Bee<i>Watsh</i></h1><p>Regardez ensemble, même à distance !</p></div>
     </div>
+    <button class="rnd" id="csb" aria-label="Rechercher">🔍</button>
+    <button class="rnd" id="cadd" aria-label="Ajouter des vidéos du téléphone">＋</button>
+  </header>
+  <input id="cq" placeholder="Rechercher un film ou un animé" hidden>
+  <div id="cbody"><div id="hero" hidden></div><div id="rows"></div></div>
+  <footer>
+    <nav class="tabs">
+      <button data-go="cat" class="on"><span>🏠</span>Accueil</button>
+      <button data-go="home"><span>⬇️</span>Téléchargements</button>
+      <button data-go="set"><span>⚙️</span>Paramètres</button>
+    </nav>
+  </footer>
+</main>
+
+<main id="home" class="screen">
+  <header>
+    <h1 class="ttl">Téléchargements</h1>
     <button class="rnd" id="sbtn" aria-label="Rechercher">🔍</button>
-    <button class="rnd" id="gbtn" aria-label="Changer mon prénom">⚙️</button>
+    <button class="rnd" id="add" aria-label="Ajouter des vidéos du téléphone">＋</button>
   </header>
   <input id="q" placeholder="Rechercher une vidéo" hidden>
-  <nav class="chips">
-    <button data-v="all" class="on">🎞 Vidéos</button>
-    <button data-v="fav">★ Favoris</button>
-    <button id="add">＋ Ajouter</button>
-  </nav>
   <div id="grid"></div>
   <footer>
-    <nav id="tabs">
-      <button data-v="all" class="on"><span>🏠</span>Accueil</button>
-      <button data-v="hist"><span>🕘</span>Historique</button>
-      <button data-v="fav"><span>♥</span>Favoris</button>
+    <nav class="tabs">
+      <button data-go="cat"><span>🏠</span>Accueil</button>
+      <button data-go="home" class="on"><span>⬇️</span>Téléchargements</button>
+      <button data-go="set"><span>⚙️</span>Paramètres</button>
     </nav>
     <div id="mini" hidden>
       <div class="mt" id="mth"></div>
@@ -130,7 +182,18 @@ dialog form{display:flex;flex-direction:column;gap:12px}
     </div>
     <button class="btn inv" hidden>👥 Inviter des amis</button>
   </footer>
-  <input id="file" type="file" accept="video/*" multiple hidden>
+</main>
+
+<main id="set" class="screen">
+  <header><h1 class="ttl">Paramètres</h1></header>
+  <div id="sbody"></div>
+  <footer>
+    <nav class="tabs">
+      <button data-go="cat"><span>🏠</span>Accueil</button>
+      <button data-go="home"><span>⬇️</span>Téléchargements</button>
+      <button data-go="set" class="on"><span>⚙️</span>Paramètres</button>
+    </nav>
+  </footer>
 </main>
 
 <main id="joinscr" class="screen">
@@ -171,6 +234,40 @@ dialog form{display:flex;flex-direction:column;gap:12px}
   </div>
 </section>
 
+<dialog id="det">
+  <div id="dposter"></div>
+  <h2 id="dt"></h2>
+  <small id="dm"></small>
+  <p id="ds"></p>
+  <div class="hb" id="dbtns"><button class="btn" id="dplay">▶ Regarder</button><button class="gh" id="dgrp">👥 Avec des amis</button></div>
+  <div id="deps"></div>
+  <form method="dialog"><button class="gh">Fermer</button></form>
+</dialog>
+<dialog id="ed">
+  <form id="ef">
+    <b id="edt"></b>
+    <input id="edi" autocomplete="off">
+    <input id="edi2" type="password" placeholder="Confirmer le mot de passe" hidden autocomplete="new-password">
+    <small id="edh"></small>
+    <div id="eerr" role="alert"></div>
+    <button class="btn">Enregistrer</button>
+    <button type="button" class="gh" id="edx">Annuler</button>
+  </form>
+</dialog>
+<dialog id="auth">
+  <form id="af">
+    <b id="at">Se connecter</b>
+    <input id="an" placeholder="Prénom" maxlength="20" hidden autocomplete="given-name">
+    <input id="ae" type="email" placeholder="Email" required autocomplete="email">
+    <input id="ap" type="tel" placeholder="Numéro de téléphone (facultatif)" hidden autocomplete="tel">
+    <input id="aw" type="password" placeholder="Mot de passe (6 caractères minimum)" required minlength="6" autocomplete="current-password">
+    <div id="aerr" role="alert"></div>
+    <button class="btn" id="asub">Se connecter</button>
+    <button type="button" class="gh" id="aswap">Créer un compte</button>
+    <button type="button" class="gh" id="aclose">Fermer</button>
+  </form>
+</dialog>
+<input id="file" type="file" accept="video/*" multiple hidden>
 <dialog id="dlg">
   <form method="dialog">
     <b>Ton prénom</b>
@@ -194,6 +291,7 @@ const el = (t, c, x) => { const e = document.createElement(t); if (c) e.classNam
 const get = k => { try { return localStorage.getItem(k) || ""; } catch (e) { return ""; } };
 const put = (k, x) => { try { localStorage.setItem(k, x); } catch (e) {} };
 const me = { id: Math.random().toString(36).slice(2, 10), name: get("bw-name") };
+let mode = "cast", applying = false, leader = false;
 let vids = [], cur = null, view = "all", hist = [], ch, code = "", link = "", isHost = false, stream, pcs = {}, gpc;
 
 const show = id => $$(".screen").forEach(s => s.classList.toggle("on", s.id === id));
@@ -224,12 +322,11 @@ function thumb(it) {
 }
 function render() {
   const q = $("#q").value.trim().toLowerCase();
-  let list = view === "fav" ? vids.filter(i => i.fav) : view === "hist" ? hist : vids;
-  if (q) list = list.filter(i => i.title.toLowerCase().includes(q));
+  const list = q ? vids.filter(i => i.title.toLowerCase().includes(q)) : vids;
   const g = $("#grid"); g.textContent = "";
   if (!list.length) {
     const e = el("div"); e.id = "empty";
-    e.append(el("p", "", vids.length ? "Rien à afficher ici pour l’instant." : "Ajoute des vidéos de ton téléphone pour commencer."));
+    e.append(el("p", "", vids.length ? "Aucun résultat." : "Ajoute des vidéos de ton téléphone avec le bouton ＋."));
     if (!vids.length) { const b = el("button", "btn", "＋ Ajouter des vidéos"); b.onclick = () => $("#file").click(); e.append(b); }
     g.append(e);
   }
@@ -240,10 +337,7 @@ function render() {
     else if (it.dur) th.append(el("span", "", "▶ " + dur(it.dur)));
     const inf = el("div", "inf"), tx = el("div");
     tx.append(el("b", "", it.title), el("small", "", size(it.size)));
-    const st = el("button", "star" + (it.fav ? " on" : ""), it.fav ? "★" : "☆");
-    st.setAttribute("aria-label", "Favori");
-    st.onclick = e => { e.stopPropagation(); it.fav = !it.fav; render(); };
-    inf.append(tx, st); c.append(th, inf);
+    inf.append(tx); c.append(th, inf);
     c.onclick = () => play(it);
     g.append(c);
   });
@@ -255,23 +349,21 @@ function ui() {
   $("#mx").hidden = !!ch;
   if (cur) { $("#mt").textContent = cur.title; $("#mth").style.backgroundImage = cur.thumb ? "url(" + cur.thumb + ")" : ""; }
 }
-function setView(x) {
-  view = x;
-  $$("[data-v]").forEach(b => b.classList.toggle("on", b.dataset.v === x));
-  render();
+function go(id) {
+  show(id);
+  $$(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.go === id));
+  if (id === "cat") crender(); else if (id === "home") render(); else srender();
 }
-$$("[data-v]").forEach(b => b.onclick = () => setView(b.dataset.v));
-$("#add").onclick = () => $("#file").click();
 $("#file").onchange = e => {
   [...e.target.files].forEach(f => {
-    const it = { file: f, url: URL.createObjectURL(f), title: f.name.replace(/\.[^.]+$/, ""), size: f.size, dur: 0, thumb: "", fav: false };
+    const it = { file: f, url: URL.createObjectURL(f), title: f.name.replace(/\.[^.]+$/, ""), size: f.size, dur: 0, thumb: "" };
     vids.push(it); thumb(it);
   });
-  e.target.value = ""; render();
+  e.target.value = ""; go("home");
 };
+$("#add").onclick = $("#cadd").onclick = () => $("#file").click();
 $("#sbtn").onclick = () => { $("#q").hidden = !$("#q").hidden; if (!$("#q").hidden) $("#q").focus(); };
 $("#q").oninput = render;
-$("#gbtn").onclick = () => askName(() => toast("Prénom enregistré."), true);
 
 /* ---------- Lecture ---------- */
 function openPlayer() {
@@ -282,17 +374,20 @@ function openPlayer() {
 function play(it) {
   if (ch && !isHost) return;
   if (it.bad) return toast("Ce format n’est pas lu par ton navigateur. Essaie un MP4 (H.264).");
-  isHost = true; cur = it; v.srcObject = null; v.src = it.url; v.controls = true;
-  if (!hist.includes(it)) hist.unshift(it);
-  openPlayer(); v.play().catch(() => {}); ui();
+  mode = "cast"; isHost = true; cur = it; v.srcObject = null; v.src = it.url; v.controls = true;
+  openPlayer(); if (pref.auto) v.play().catch(() => {}); ui();
 }
-$("#back").onclick = () => { show("home"); render(); };
+$("#back").onclick = () => {
+  if (cur && cur.remote) { v.pause(); v.removeAttribute("src"); v.load(); cur = null; ui(); go("cat"); }
+  else go("home");
+};
 $("#mopen").onclick = openPlayer;
 $("#mp").onclick = () => v.paused ? v.play() : v.pause();
 $("#mx").onclick = () => { v.pause(); v.removeAttribute("src"); v.load(); cur = null; ui(); };
 v.onerror = () => { if (isHost && cur) toast("Vidéo illisible (code " + (v.error ? v.error.code : "?") + "). Essaie un MP4 (H.264)."); };
-v.onplay = () => $("#mp").textContent = "❚❚";
-v.onpause = () => $("#mp").textContent = "▶";
+v.onplay = () => { $("#mp").textContent = "❚❚"; lctl({ a: "play", t: v.currentTime }); };
+v.onpause = () => { $("#mp").textContent = "▶"; lctl({ a: "pause", t: v.currentTime }); };
+v.onseeked = () => lctl({ a: "seek", t: v.currentTime });
 v.ontimeupdate = () => { if (cur && v.duration) $("#mtime").textContent = dur(v.currentTime) + " / " + dur(v.duration); };
 $("#fs").onclick = () => { const s = $("#stage"); (s.requestFullscreen || s.webkitRequestFullscreen || (() => {})).call(s); };
 
@@ -306,13 +401,17 @@ function invite() {
   if (ch) return openPlayer();
   if (!cur || v.readyState < 1) return toast("Attends que la vidéo soit chargée.");
   askName(() => {
-    stream = v.captureStream ? v.captureStream() : v.mozCaptureStream ? v.mozCaptureStream() : null;
-    if (!stream) return toast("Ce navigateur ne peut pas diffuser la vidéo. Utilise Chrome.");
-    stream.onaddtrack = e => Object.entries(pcs).forEach(async ([id, pc]) => {
-      pc.addTrack(e.track, stream);
-      await pc.setLocalDescription(await pc.createOffer());
-      sig({ to: id, type: "offer", reneg: true, sdp: pc.localDescription });
-    });
+    if (cur.remote) mode = "link";
+    else {
+      stream = v.captureStream ? v.captureStream() : v.mozCaptureStream ? v.mozCaptureStream() : null;
+      if (!stream) return toast("Ce navigateur ne peut pas diffuser la vidéo. Utilise Chrome.");
+      stream.onaddtrack = e => Object.entries(pcs).forEach(async ([id, pc]) => {
+        pc.addTrack(e.track, stream);
+        await pc.setLocalDescription(await pc.createOffer());
+        sig({ to: id, type: "offer", reneg: true, sdp: pc.localDescription });
+      });
+      mode = "cast";
+    }
     code = String(Math.floor(100000 + Math.random() * 900000));
     link = location.origin + location.pathname + "#" + code;
     openPlayer(); shareLink(); connect();
@@ -334,10 +433,14 @@ $("#join").onclick = () => askName(() => {
 /* ---------- Salon ---------- */
 function connect() {
   if (SUPABASE_URL.startsWith("COLLE")) return toast("Il manque l’URL et la clé Supabase dans le fichier.");
-  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  const sb = getSb();
   ch = sb.channel("bw-" + code, { config: { broadcast: { self: false }, presence: { key: me.id } } });
   ch.on("broadcast", { event: "sig" }, ({ payload }) => onSig(payload))
-    .on("broadcast", { event: "chat" }, ({ payload }) => msg(payload.n, payload.t, payload.h))
+    .on("broadcast", { event: "chat" }, ({ payload }) => msg(payload.n, payload.t, payload.h, payload.av))
+    .on("broadcast", { event: "ctl" }, ({ payload }) => onCtl(payload))
+    .on("broadcast", { event: "ask" }, () => {
+      if (mode === "link" && cur && cur.url) ch.send({ type: "broadcast", event: "ctl", payload: { a: "state", url: cur.url, title: cur.title, t: v.currentTime, p: !v.paused } });
+    })
     .on("presence", { event: "sync" }, () => {
       const n = Object.keys(ch.presenceState()).length - 1;
       $("#badge").hidden = false; $("#badge").textContent = n + (n > 1 ? " amis" : " ami");
@@ -349,8 +452,8 @@ function connect() {
         $("#solo").hidden = true; $("#live").hidden = false; ui();
         if (isHost) $("#back").hidden = true;
         $("#rname").textContent = "BeeWatsh-" + code; $("#rlink").textContent = location.origin + location.pathname + "#" + code;
-        if (isHost) { sig({ to: "all", type: "ready" }); sys("Salon ouvert. Lance la vidéo : tes amis la voient en direct."); }
-        else { sys("Connexion à l’hôte…"); sig({ to: "host", type: "hello" }); }
+        if (isHost) { sig({ to: "all", type: "ready" }); sys(mode === "link" ? "Salon ouvert. Tes amis chargent la même vidéo, tout reste synchronisé." : "Salon ouvert. Lance la vidéo : tes amis la voient en direct."); }
+        else { sys("Connexion au salon…"); sig({ to: "host", type: "hello" }); ch.send({ type: "broadcast", event: "ask", payload: {} }); }
       } else if (st === "CHANNEL_ERROR" || st === "TIMED_OUT") toast("Connexion impossible. Vérifie l’URL et la clé Supabase.");
     });
 }
@@ -367,7 +470,7 @@ function mkpc(dest) {
 async function setRemote(pc, d) { await pc.setRemoteDescription(d); pc.q.splice(0).forEach(c => pc.addIceCandidate(c)); }
 async function onSig(p) {
   if (p.to !== me.id && p.to !== "all" && !(p.to === "host" && isHost)) return;
-  if (p.type === "hello" && isHost) {
+  if (p.type === "hello" && isHost && stream) {
     if (pcs[p.from]) pcs[p.from].close();
     const pc = pcs[p.from] = mkpc(p.from);
     stream.getTracks().forEach(t => pc.addTrack(t, stream));
@@ -415,6 +518,264 @@ async function onSig(p) {
   }
 }
 
+/* ---------- Catalogue (films et animés) ---------- */
+let sbc, cat = [];
+function getSb() { if (!sbc) sbc = supabase.createClient(SUPABASE_URL, SUPABASE_KEY); return sbc; }
+const bg = (e, u) => { e.style.backgroundImage = u ? 'url("' + u.replace(/["\\\n]/g, encodeURIComponent) + '")' : ""; };
+const kindName = k => k === "anime" ? "Animé" : k === "serie" ? "Série" : "Film";
+const meta = it => [kindName(it.kind), it.genre, it.year].filter(Boolean).join(" • ");
+async function loadCat() {
+  $("#rows").textContent = "Chargement du catalogue…";
+  try {
+    const { data, error } = await getSb().from("bw_catalogue").select("*").order("created_at", { ascending: false });
+    if (error) throw error;
+    cat = data || [];
+  } catch (e) {
+    $("#rows").textContent = "";
+    $("#rows").append(el("p", "hint", "Impossible de charger le catalogue. Vérifie ta connexion."));
+    return;
+  }
+  crender();
+}
+function pcard(it) {
+  const c = el("div", "pc"), i = el("div", "pi");
+  bg(i, it.poster_url);
+  c.append(i, el("b", "", it.title));
+  c.onclick = () => detail(it);
+  return c;
+}
+function crender() {
+  const q = $("#cq").value.trim().toLowerCase();
+  let list = cat;
+  if (q) list = list.filter(i => i.title.toLowerCase().includes(q) || (i.genre || "").toLowerCase().includes(q));
+  const h = $("#hero"), r = $("#rows");
+  h.textContent = ""; r.textContent = "";
+  if (!list.length) {
+    h.hidden = true;
+    r.append(el("p", "hint", cat.length ? "Aucun résultat." : "Le catalogue est vide pour l’instant."));
+    return;
+  }
+  if (!q) {
+    const f = list.find(i => i.featured) || list[0];
+    bg(h, f.banner_url || f.poster_url); h.hidden = false;
+    const hi = el("div", "hi"), bs = el("div", "hb");
+    const b1 = el("button", "btn", "▶ Regarder"), b2 = el("button", "gh", "👥 Avec des amis");
+    b1.onclick = () => playCat(f); b2.onclick = () => playCat(f, true);
+    bs.append(b1, b2);
+    hi.append(el("h2", "", f.title), el("small", "", meta(f)), bs);
+    h.append(hi);
+  } else h.hidden = true;
+  const row = (t, a) => {
+    if (!a.length) return;
+    const s = el("section", "row"), hs = el("div", "hs");
+    a.forEach(it => hs.append(pcard(it)));
+    s.append(el("h2", "", t), hs); r.append(s);
+  };
+  if (q) row("Résultats", list);
+  else {
+    row("Nouveautés", list.slice(0, 12));
+    row("Films", list.filter(i => i.kind === "film"));
+    row("Animés", list.filter(i => i.kind === "anime"));
+    row("Séries", list.filter(i => i.kind === "serie"));
+    [...new Set(list.map(i => i.genre).filter(Boolean))].forEach(g => {
+      const a = list.filter(i => i.genre === g);
+      if (a.length > 1) row(g, a);
+    });
+  }
+}
+async function detail(it) {
+  bg($("#dposter"), it.poster_url);
+  $("#dt").textContent = it.title; $("#dm").textContent = meta(it); $("#ds").textContent = it.synopsis || "";
+  $("#dbtns").hidden = it.kind !== "film" || !it.video_url;
+  $("#dplay").onclick = () => { $("#det").close(); playCat(it); };
+  $("#dgrp").onclick = () => { $("#det").close(); playCat(it, true); };
+  const eps = $("#deps"); eps.textContent = "";
+  $("#det").showModal();
+  if (it.kind === "film") return;
+  eps.append(el("p", "hint", "Chargement des épisodes…"));
+  const { data, error } = await getSb().from("bw_episodes").select("*").eq("catalogue_id", it.id).order("season").order("number");
+  eps.textContent = "";
+  if (error || !data || !data.length) { eps.append(el("p", "hint", error ? "Impossible de charger les épisodes." : "Aucun épisode pour l’instant.")); return; }
+  let s = null;
+  data.forEach(ep => {
+    if (ep.season !== s) { s = ep.season; eps.append(el("h3", "", "Saison " + s)); }
+    const r = el("div", "ep"), t = el("button", "eptx", "Épisode " + ep.number + (ep.title ? " · " + ep.title : "")), g = el("button", "gh epg", "👥");
+    g.setAttribute("aria-label", "Regarder avec des amis");
+    t.onclick = () => { $("#det").close(); playCat(it, false, ep); };
+    g.onclick = () => { $("#det").close(); playCat(it, true, ep); };
+    r.append(t, g); eps.append(r);
+  });
+}
+function playCat(it, group, ep) {
+  const url = ep ? ep.video_url : it.video_url;
+  if (!url) return detail(it);
+  if (ch) return toast("Quitte le salon pour changer de vidéo.");
+  const title = ep ? it.title + " – S" + ep.season + " E" + ep.number : it.title;
+  mode = "link"; isHost = true;
+  cur = { title, url, thumb: it.poster_url, remote: true };
+  v.srcObject = null; v.src = url; v.controls = true;
+  openPlayer(); if (pref.auto) v.play().catch(() => {}); ui();
+  if (group) {
+    if (v.readyState >= 1) invite();
+    else v.addEventListener("loadedmetadata", () => invite(), { once: true });
+  }
+}
+$$("[data-go]").forEach(b => b.onclick = () => go(b.dataset.go));
+$("#csb").onclick = () => { $("#cq").hidden = !$("#cq").hidden; if (!$("#cq").hidden) $("#cq").focus(); };
+$("#cq").oninput = crender;
+
+/* ---------- Compte et paramètres ---------- */
+const PREF0 = { auto: true, mutejoin: false };
+let pref = { ...PREF0 };
+try { pref = { ...PREF0, ...JSON.parse(get("bw-pref") || "{}") }; } catch (e) {}
+const savePref = () => put("bw-pref", JSON.stringify(pref));
+let user = null, prof = null, signup = false;
+const AVS = ["🐝", "🦁", "🐼", "🦊", "🐸", "🐯", "🦄", "🐙"];
+me.avatar = get("bw-av");
+
+async function loadProfile() {
+  try {
+    const { data } = await getSb().auth.getSession();
+    user = data.session ? data.session.user : null;
+    prof = null;
+    if (user) {
+      let { data: p } = await getSb().from("bw_profiles").select("*").eq("id", user.id).maybeSingle();
+      if (!p) {
+        const m = user.user_metadata || {};
+        p = { id: user.id, name: m.name || me.name || null, phone: m.phone || null, avatar: me.avatar || null };
+        await getSb().from("bw_profiles").insert(p);
+      }
+      prof = p;
+      if (p.name) { me.name = p.name; put("bw-name", p.name); }
+      if (p.avatar) { me.avatar = p.avatar; put("bw-av", p.avatar); }
+    }
+  } catch (e) {}
+  srender();
+}
+async function saveProf(patch) {
+  if (patch.name) { me.name = patch.name; put("bw-name", patch.name); }
+  if ("avatar" in patch) { me.avatar = patch.avatar; put("bw-av", patch.avatar); }
+  if (user) {
+    const db = { ...patch }; if ("avatar" in db) db.avatar = db.avatar || null;
+    const { error } = await getSb().from("bw_profiles").update(db).eq("id", user.id);
+    if (error) { $("#eerr").textContent = "Enregistrement impossible : " + error.message; toast("Enregistrement impossible."); return false; }
+    prof = { ...prof, ...db };
+  }
+  srender(); return true;
+}
+function askEdit(o) {
+  $("#edt").textContent = o.title; $("#edh").textContent = o.hint || ""; $("#eerr").textContent = "";
+  const i = $("#edi"), j = $("#edi2");
+  i.type = o.type || "text"; i.value = o.value || ""; i.placeholder = o.ph || ""; i.maxLength = o.max || 80;
+  i.autocomplete = o.type === "password" ? "new-password" : "off";
+  j.hidden = !o.confirm; j.value = "";
+  $("#ed").showModal();
+  $("#ef").onsubmit = async e => {
+    e.preventDefault();
+    const val = o.type === "password" ? i.value : i.value.trim();
+    if (!val && !o.allowEmpty) return $("#eerr").textContent = "Ce champ est vide.";
+    if (o.confirm && val !== j.value) return $("#eerr").textContent = "Les deux mots de passe sont différents.";
+    if (await o.onOk(val)) $("#ed").close();
+  };
+}
+$("#edx").onclick = () => $("#ed").close();
+
+function srender() {
+  const b = $("#sbody"); b.textContent = "";
+  const card = el("div", "pcard2"), av = el("div", "bigav", me.avatar || (me.name || "?").slice(0, 1).toUpperCase()), info = el("div");
+  av.style.background = hue(me.name || "?");
+  info.append(el("b", "", me.name || "Invité"), el("br"), el("small", "", user ? user.email : "Invité · non connecté"));
+  card.append(av, info); b.append(card);
+  if (!user) { const x = el("button", "btn", "Se connecter ou créer un compte"); x.onclick = () => openAuth(false); b.append(x); }
+  const sec = t => b.append(el("h3", "", t));
+  const row = (label, val, fn) => { const r = el("button", "srow"); r.append(el("span", "", label), el("small", "", val || "")); r.onclick = fn; b.append(r); };
+  const tog = (label, key) => { const r = el("button", "srow"); r.append(el("span", "", label), el("span", "sw" + (pref[key] ? " on" : ""))); r.onclick = () => { pref[key] = !pref[key]; savePref(); srender(); }; b.append(r); };
+
+  sec("Profil");
+  row("Prénom", me.name || "Ajouter", () => askEdit({ title: "Ton prénom", value: me.name, max: 20, onOk: v => saveProf({ name: v }) }));
+  const avs = el("div", "avs"), none = el("button", me.avatar ? "" : "on", "Aa");
+  none.setAttribute("aria-label", "Utiliser mon initiale"); none.onclick = () => saveProf({ avatar: "" }); avs.append(none);
+  AVS.forEach(x => { const bt = el("button", me.avatar === x ? "on" : "", x); bt.onclick = () => saveProf({ avatar: x }); avs.append(bt); });
+  b.append(avs);
+  row("Numéro de téléphone", user ? (prof && prof.phone) || "Ajouter" : "Connexion requise", () => user
+    ? askEdit({ title: "Numéro de téléphone", value: (prof && prof.phone) || "", type: "tel", max: 20, hint: "Ton numéro n’est pas vérifié par SMS.", allowEmpty: true, onOk: v => saveProf({ phone: v || null }) })
+    : openAuth(false));
+
+  sec("Compte");
+  if (user) {
+    row("Email", user.email, () => {});
+    row("Mot de passe", "Modifier", () => askEdit({
+      title: "Nouveau mot de passe", type: "password", confirm: true, max: 72, ph: "Nouveau mot de passe (6 caractères minimum)",
+      onOk: async v => {
+        if (v.length < 6) { $("#eerr").textContent = "6 caractères minimum."; return false; }
+        const { error } = await getSb().auth.updateUser({ password: v });
+        if (error) { $("#eerr").textContent = error.message; return false; }
+        toast("Mot de passe modifié."); return true;
+      }
+    }));
+    row("Se déconnecter", "", async () => { await getSb().auth.signOut(); toast("Déconnecté."); });
+  } else row("Mot de passe", "Connexion requise", () => openAuth(false));
+
+  sec("Lecture et appel");
+  tog("Lecture automatique", "auto");
+  tog("Micro coupé en rejoignant un appel", "mutejoin");
+
+  sec("Données");
+  row("Vider la liste des téléchargements", vids.length + " vidéo" + (vids.length > 1 ? "s" : ""), () => {
+    if (ch) return toast("Quitte d’abord le salon.");
+    if (cur && !cur.remote) { v.pause(); v.removeAttribute("src"); v.load(); cur = null; }
+    vids.forEach(i => URL.revokeObjectURL(i.url)); vids = [];
+    ui(); render(); srender(); toast("Liste vidée.");
+  });
+  row("Réinitialiser les réglages", "", () => { pref = { ...PREF0 }; savePref(); srender(); toast("Réglages réinitialisés."); });
+
+  sec("À propos");
+  row("BeeWatsh", "Version 1.0", () => {});
+}
+
+function openAuth(s) { signup = s; authUi(); $("#aerr").textContent = ""; $("#auth").showModal(); }
+function authUi() {
+  $("#at").textContent = signup ? "Créer un compte" : "Se connecter";
+  $("#asub").textContent = signup ? "Créer mon compte" : "Se connecter";
+  $("#aswap").textContent = signup ? "J’ai déjà un compte" : "Créer un compte";
+  $("#an").hidden = $("#ap").hidden = !signup;
+  $("#an").required = signup;
+  $("#aw").autocomplete = signup ? "new-password" : "current-password";
+}
+$("#aswap").onclick = () => { signup = !signup; authUi(); };
+$("#aclose").onclick = () => $("#auth").close();
+$("#af").onsubmit = async e => {
+  e.preventDefault();
+  const email = $("#ae").value.trim(), password = $("#aw").value, a = getSb().auth;
+  $("#aerr").textContent = "";
+  const r = signup
+    ? await a.signUp({ email, password, options: { data: { name: $("#an").value.trim(), phone: $("#ap").value.trim() || null } } })
+    : await a.signInWithPassword({ email, password });
+  if (r.error) return $("#aerr").textContent = /invalid login/i.test(r.error.message) ? "Email ou mot de passe incorrect." : r.error.message;
+  if (signup && !r.data.session) return $("#aerr").textContent = "Compte créé. Confirme ton email, puis connecte-toi.";
+  $("#auth").close(); toast(signup ? "Compte créé !" : "Connecté."); loadProfile();
+};
+
+/* ---------- Lecture synchronisée (vidéo par lien) ---------- */
+const noauto = () => sys("Appuie sur ▶ pour lancer la lecture.");
+function lctl(p) { if (ch && mode === "link" && !applying) { leader = true; ch.send({ type: "broadcast", event: "ctl", payload: p }); } }
+function onCtl(p) {
+  applying = true; setTimeout(() => applying = false, 500);
+  const seek = t => { if (Math.abs(v.currentTime - t) > 0.8) v.currentTime = t; };
+  if (p.a === "state") {
+    if (v.src) return;
+    mode = "link"; v.srcObject = null; v.controls = true; v.src = p.url;
+    cur = { title: p.title || "Vidéo", url: p.url, remote: true };
+    $("#ptitle").textContent = cur.title;
+    v.onloadedmetadata = () => { v.currentTime = p.t; if (p.p) v.play().catch(noauto); v.onloadedmetadata = null; };
+    sys("Vidéo chargée.");
+  } else if (p.a === "play") { leader = false; seek(p.t); v.play().catch(noauto); }
+  else if (p.a === "pause") { leader = false; v.pause(); seek(p.t); }
+  else if (p.a === "seek") { leader = false; v.currentTime = p.t; }
+  else if (p.a === "tick") { leader = false; if (!v.paused && Math.abs(v.currentTime - p.t) > 1.5) v.currentTime = p.t; }
+}
+setInterval(() => { if (ch && mode === "link" && leader && !v.paused) ch.send({ type: "broadcast", event: "ctl", payload: { a: "tick", t: v.currentTime } }); }, 4000);
+
 /* ---------- Appel vocal (chaque personne relie son micro à chaque autre) ---------- */
 let mic, vpcs = {}, vnames = {}, muted = false;
 function vrender() {
@@ -455,7 +816,7 @@ async function voffer(peer, name) {
 $("#vjoin").onclick = async () => {
   try { mic = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true } }); }
   catch (e) { return toast("Micro refusé. Autorise le micro pour rejoindre l’appel."); }
-  muted = false; vrender();
+  muted = pref.mutejoin; mic.getAudioTracks().forEach(t => t.enabled = !muted); vrender();
   sig({ to: "all", type: "vjoin", n: me.name });
 };
 $("#vmute").onclick = () => { muted = !muted; mic.getAudioTracks().forEach(t => t.enabled = !muted); vrender(); };
@@ -467,8 +828,8 @@ $("#vquit").onclick = () => {
 
 /* ---------- Chat ---------- */
 const now = () => new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
-function msg(n, t, h) {
-  const m = el("div", "m"), a = el("div", "av", n.slice(0, 1).toUpperCase()), b = el("div"), top = el("div");
+function msg(n, t, h, av) {
+  const m = el("div", "m"), a = el("div", "av", av || n.slice(0, 1).toUpperCase()), b = el("div"), top = el("div");
   a.style.background = hue(n);
   top.append(el("b", "", n), el("small", "", h || now()));
   b.append(top, el("div", "", t));
@@ -480,8 +841,8 @@ $("#send").onsubmit = e => {
   const t = $("#msg").value.trim();
   if (!t || !ch) return;
   const h = now();
-  ch.send({ type: "broadcast", event: "chat", payload: { n: me.name, t, h } });
-  msg(me.name, t, h); $("#msg").value = "";
+  ch.send({ type: "broadcast", event: "chat", payload: { n: me.name, t, h, av: me.avatar } });
+  msg(me.name, t, h, me.avatar); $("#msg").value = "";
 };
 ["😂", "🔥", "❤️", "😎", "👏", "😮"].forEach(x => {
   const b = el("button", "", x); b.type = "button";
@@ -502,6 +863,9 @@ document.addEventListener("visibilitychange", () => {
 $("#snd").onclick = () => { v.muted = false; v.play().catch(() => {}); $("#snd").hidden = true; };
 v.onclick = () => { if (!isHost && v.paused) v.play().catch(() => {}); };
 render();
+loadCat();
+loadProfile();
+getSb().auth.onAuthStateChange(ev => { if (ev === "SIGNED_IN" || ev === "SIGNED_OUT" || ev === "USER_UPDATED") setTimeout(loadProfile, 0); });
 </script>
 </body>
 </html>
