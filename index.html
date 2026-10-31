@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050507">
+<title>BeeWatsh</title>
+<style>
+:root{--bg:#050507;--card:#14131c;--line:#2a2840;--y:#ffb400;--t:#fff;--mute:#9b98b0;--red:#ff7a6b}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%;background:var(--bg)}
+body{color:var(--t);font:16px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+button,input{font:inherit;color:inherit}
+button{border:0;cursor:pointer}
+input{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;width:100%;min-width:0}
+input:focus,button:focus-visible{outline:2px solid var(--y);outline-offset:1px}
+[hidden]{display:none!important}
+.screen{display:none;height:100%;flex-direction:column;max-width:560px;margin:0 auto;width:100%}
+.screen.on{display:flex}
+.btn{background:var(--y);color:#2a1a00;font-weight:700;border-radius:16px;padding:15px 18px}
+.rnd{background:var(--card);border:1px solid var(--line);border-radius:50%;width:46px;height:46px;font-size:18px;flex:none}
+header,.ph{display:flex;align-items:center;gap:10px;padding:14px 16px 8px}
+.logo{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+.logo svg{width:44px;height:44px;flex:none}
+h1{font-size:32px;font-weight:800;font-style:italic;line-height:1}
+h1 i{color:var(--y)}
+.logo p{font-size:12px}
+.chips{display:flex;gap:8px;padding:8px 16px;overflow-x:auto}
+.chips button{background:var(--card);border-radius:99px;padding:11px 18px;font-weight:600;white-space:nowrap;border:1px solid var(--line)}
+.chips button.on{background:var(--y);color:#2a1a00;border-color:var(--y)}
+#q{margin:0 16px 6px;width:auto}
+#grid{flex:1;overflow-y:auto;display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:10px 16px;align-content:start}
+.card{background:var(--card);border-radius:16px;overflow:hidden;cursor:pointer;border:1px solid var(--line)}
+.th{position:relative;aspect-ratio:16/10;background:#241f3a center/cover}
+.th span{position:absolute;right:8px;bottom:8px;background:#000b;border-radius:99px;padding:2px 10px;font-size:13px}
+.inf{display:flex;align-items:center;padding:8px 10px;gap:6px}
+.inf div{flex:1;min-width:0}
+.inf b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.inf small{color:var(--mute)}
+.star{background:none;font-size:20px;color:var(--mute);padding:4px}
+.star.on{color:var(--y)}
+#empty{grid-column:1/-1;text-align:center;color:var(--mute);padding:40px 10px;display:flex;flex-direction:column;gap:14px;align-items:center}
+footer{border-top:1px solid var(--line);background:#0a0a10}
+#tabs{display:flex}
+#tabs button{flex:1;background:none;color:var(--mute);padding:10px 0;font-size:13px}
+#tabs button.on{color:var(--y);font-weight:700}
+#tabs button span{display:block;font-size:20px}
+#mini{display:flex;align-items:center;gap:10px;margin:0 12px 8px;padding:8px;background:var(--card);border-radius:16px;border:1px solid var(--line)}
+#mini .mt{width:64px;aspect-ratio:16/10;border-radius:10px;background:#241f3a center/cover;flex:none}
+#mini div.i{flex:1;min-width:0;cursor:pointer}
+#mini b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#mini small{color:var(--mute)}
+#mp{background:var(--y);color:#2a1a00;border-radius:50%;width:46px;height:46px;font-size:18px;flex:none}
+#mx{background:none;font-size:20px;color:var(--mute);padding:6px}
+.inv{display:block;width:calc(100% - 24px);margin:0 12px 12px}
+.ph b{display:block;font-size:20px}
+.ph small{color:var(--mute)}
+.ph div{flex:1;min-width:0}
+#stage{position:relative;background:#000}
+video{width:100%;aspect-ratio:16/9;display:block;background:#000}
+#badge{position:absolute;top:10px;right:10px;background:#0009;border-radius:99px;padding:5px 12px;font-size:14px}
+#badge:before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:#2fd35a;margin-right:6px}
+#solo{padding:16px;display:flex;flex-direction:column;gap:10px;color:var(--mute);font-size:14px}
+#solo .inv{width:100%;margin:0}
+#live{flex:1;min-height:0;flex-direction:column;padding:10px 12px 0;gap:10px}
+#live:not([hidden]){display:flex}
+.room{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.room div{display:flex;align-items:center;gap:8px}
+.room span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.room button{background:#2a2840;border-radius:10px;padding:8px 12px;font-weight:600}
+.t2{display:flex;border-bottom:1px solid var(--line)}
+.t2 button{flex:1;background:none;color:var(--mute);padding:10px;font-weight:600;border-bottom:3px solid transparent}
+.t2 button.on{color:var(--y);border-color:var(--y)}
+#chat,#call{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding:4px 2px}
+#call{align-items:center;justify-content:center;color:var(--mute);text-align:center}
+.m{display:flex;gap:10px}
+.av{width:40px;height:40px;border-radius:50%;flex:none;display:grid;place-items:center;font-weight:800;color:#1a1000}
+.m b{margin-right:8px}
+.m small{color:var(--mute)}
+.sys{color:var(--mute);font-style:italic;font-size:14px}
+#emos{display:flex;gap:6px;justify-content:center}
+#emos button{background:none;font-size:26px}
+#send{display:flex;gap:8px;padding:8px 0 12px}
+#send input{border-radius:99px}
+#emo{background:var(--card);border-radius:50%;width:46px;height:46px;font-size:22px;flex:none}
+#go{background:var(--y);color:#2a1a00;border-radius:14px;width:50px;font-size:20px;flex:none}
+#joinscr{justify-content:center;gap:16px;padding:24px}
+#joinscr p{color:var(--mute)}
+#toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#fff;color:#111;padding:10px 16px;border-radius:99px;font-weight:600;z-index:9;max-width:90%}
+dialog{margin:auto;background:var(--card);color:var(--t);border:1px solid var(--line);border-radius:18px;padding:20px;width:min(340px,90%)}
+dialog::backdrop{background:#000a}
+dialog form{display:flex;flex-direction:column;gap:12px}
+</style>
+</head>
+<body>
+
+<main id="home" class="screen on">
+  <header>
+    <div class="logo">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M13 16L37 28L13 40Z" fill="#ffb400" stroke="#ffb400" stroke-width="7" stroke-linejoin="round"/><path d="M5 6l4 6 4-7 4 7 4-6-2 10H7z" fill="#ffb400"/></svg>
+      <div><h1>Bee<i>Watsh</i></h1><p>Regardez ensemble, même à distance !</p></div>
+    </div>
+    <button class="rnd" id="sbtn" aria-label="Rechercher">🔍</button>
+    <button class="rnd" id="gbtn" aria-label="Changer mon prénom">⚙️</button>
+  </header>
+  <input id="q" placeholder="Rechercher une vidéo" hidden>
+  <nav class="chips">
+    <button data-v="all" class="on">🎞 Vidéos</button>
+    <button data-v="fav">★ Favoris</button>
+    <button id="add">＋ Ajouter</button>
+  </nav>
+  <div id="grid"></div>
+  <footer>
+    <nav id="tabs">
+      <button data-v="all" class="on"><span>🏠</span>Accueil</button>
+      <button data-v="hist"><span>🕘</span>Historique</button>
+      <button data-v="fav"><span>♥</span>Favoris</button>
+    </nav>
+    <div id="mini" hidden>
+      <div class="mt" id="mth"></div>
+      <div class="i" id="mopen"><b id="mt"></b><small id="mtime"></small></div>
+      <button id="mp" aria-label="Lecture ou pause">▶</button>
+      <button id="mx" aria-label="Fermer">✕</button>
+    </div>
+    <button class="btn inv" hidden>👥 Inviter des amis</button>
+  </footer>
+  <input id="file" type="file" accept="video/*" multiple hidden>
+</main>
+
+<main id="joinscr" class="screen">
+  <div class="logo">
+    <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M13 16L37 28L13 40Z" fill="#ffb400" stroke="#ffb400" stroke-width="7" stroke-linejoin="round"/><path d="M5 6l4 6 4-7 4 7 4-6-2 10H7z" fill="#ffb400"/></svg>
+    <h1>Bee<i>Watsh</i></h1>
+  </div>
+  <p>Un ami t’invite à regarder une vidéo avec lui.</p>
+  <button class="btn" id="join">Rejoindre le salon</button>
+</main>
+
+<section id="player" class="screen">
+  <div class="ph">
+    <button class="rnd" id="back" aria-label="Retour">←</button>
+    <div><b id="ptitle">BeeWatsh</b><small>👑 Regardez ensemble</small></div>
+    <button class="rnd" id="fs" aria-label="Plein écran">⛶</button>
+  </div>
+  <div id="stage"><video id="v" playsinline></video><span id="badge" hidden></span></div>
+  <div id="solo">
+    <button class="btn inv">👥 Inviter des amis</button>
+    <span>Pour 2 à 4 amis. Garde ton écran allumé pendant le film.</span>
+  </div>
+  <div id="live" hidden>
+    <div class="room">
+      <div><span>Salle : <b id="rname"></b></span><button id="c1">Copier</button></div>
+      <div><span>Lien d’invitation : <span id="rlink"></span></span><button id="c2">Copier</button></div>
+    </div>
+    <div class="t2"><button data-t="chat" class="on">💬 Chat</button><button data-t="call">📞 Appel vocal</button></div>
+    <div id="chat" aria-live="polite"></div>
+    <div id="call" hidden>L’appel vocal arrive bientôt.<br>En attendant, utilise le chat.</div>
+    <div id="emos" hidden></div>
+    <form id="send"><button type="button" id="emo" aria-label="Emojis">🙂</button><input id="msg" placeholder="Écrire un message…" autocomplete="off"><button id="go" aria-label="Envoyer">➤</button></form>
+  </div>
+</section>
+
+<dialog id="dlg">
+  <form method="dialog">
+    <b>Ton prénom</b>
+    <input id="dn" maxlength="20" placeholder="Prénom" autocomplete="nickname">
+    <button class="btn">Valider</button>
+  </form>
+</dialog>
+<div id="toast" hidden></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+// 1) Projet Supabase utilisé par BeeWatsh (URL + clé publique « anon »)
+const SUPABASE_URL = "https://vgnxmwwvdgyqmthoovwf.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZnbnhtd3d2ZGd5cW10aG9vdndmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4NDMxMDAsImV4cCI6MjEwNjQxOTEwMH0.sppNK0RfplG2EbS5sma4aFWEozzZBOM_At9XKx_jCwM";
+// 2) Si certains amis n’arrivent pas à se connecter, ajoute ici un serveur TURN
+const ICE = [{ urls: "stun:stun.l.google.com:19302" }];
+
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const v = $("#v");
+const el = (t, c, x) => { const e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; };
+const get = k => { try { return localStorage.getItem(k) || ""; } catch (e) { return ""; } };
+const put = (k, x) => { try { localStorage.setItem(k, x); } catch (e) {} };
+const me = { id: Math.random().toString(36).slice(2, 10), name: get("bw-name") };
+let vids = [], cur = null, view = "all", hist = [], ch, code = "", link = "", isHost = false, stream, pcs = {}, gpc;
+
+const show = id => $$(".screen").forEach(s => s.classList.toggle("on", s.id === id));
+let tt; function toast(t) { const e = $("#toast"); e.textContent = t; e.hidden = false; clearTimeout(tt); tt = setTimeout(() => e.hidden = true, 3200); }
+const dur = s => { s = Math.round(s); const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), x = s % 60; return (h ? h + ":" + String(m).padStart(2, "0") : m) + ":" + String(x).padStart(2, "0"); };
+const size = b => b >= 1e9 ? (b / 1e9).toFixed(1).replace(".", ",") + " Go" : Math.round(b / 1e6) + " Mo";
+const hue = n => { let h = 0; for (const c of n) h = (h * 31 + c.charCodeAt(0)) % 360; return "hsl(" + h + " 85% 65%)"; };
+
+function askName(then, force) {
+  if (me.name && !force) return then();
+  $("#dn").value = me.name;
+  $("#dlg").showModal();
+  $("#dlg").onclose = () => { const n = $("#dn").value.trim(); if (n) { me.name = n; put("bw-name", n); then(); } };
+}
+
+/* ---------- Bibliothèque ---------- */
+function thumb(it) {
+  const t = document.createElement("video");
+  t.muted = true; t.preload = "metadata"; t.playsInline = true; t.src = it.url;
+  t.onloadedmetadata = () => { it.dur = t.duration; t.currentTime = Math.min(10, t.duration * 0.1); };
+  t.onseeked = () => {
+    const c = document.createElement("canvas"); c.width = 320; c.height = 200;
+    c.getContext("2d").drawImage(t, 0, 0, 320, 200);
+    it.thumb = c.toDataURL("image/jpeg", .7);
+    t.removeAttribute("src"); t.load(); render();
+  };
+  t.onerror = () => render();
+}
+function render() {
+  const q = $("#q").value.trim().toLowerCase();
+  let list = view === "fav" ? vids.filter(i => i.fav) : view === "hist" ? hist : vids;
+  if (q) list = list.filter(i => i.title.toLowerCase().includes(q));
+  const g = $("#grid"); g.textContent = "";
+  if (!list.length) {
+    const e = el("div"); e.id = "empty";
+    e.append(el("p", "", vids.length ? "Rien à afficher ici pour l’instant." : "Ajoute des vidéos de ton téléphone pour commencer."));
+    if (!vids.length) { const b = el("button", "btn", "＋ Ajouter des vidéos"); b.onclick = () => $("#file").click(); e.append(b); }
+    g.append(e);
+  }
+  list.forEach(it => {
+    const c = el("div", "card"), th = el("div", "th");
+    if (it.thumb) th.style.backgroundImage = "url(" + it.thumb + ")";
+    if (it.dur) th.append(el("span", "", "▶ " + dur(it.dur)));
+    const inf = el("div", "inf"), tx = el("div");
+    tx.append(el("b", "", it.title), el("small", "", size(it.size)));
+    const st = el("button", "star" + (it.fav ? " on" : ""), it.fav ? "★" : "☆");
+    st.setAttribute("aria-label", "Favori");
+    st.onclick = e => { e.stopPropagation(); it.fav = !it.fav; render(); };
+    inf.append(tx, st); c.append(th, inf);
+    c.onclick = () => play(it);
+    g.append(c);
+  });
+  ui();
+}
+function ui() {
+  $("#mini").hidden = !cur;
+  $$(".inv").forEach(b => { b.hidden = b.closest("footer") ? !cur : false; b.textContent = ch ? "👥 Ouvrir le salon" : "👥 Inviter des amis"; });
+  $("#mx").hidden = !!ch;
+  if (cur) { $("#mt").textContent = cur.title; $("#mth").style.backgroundImage = cur.thumb ? "url(" + cur.thumb + ")" : ""; }
+}
+function setView(x) {
+  view = x;
+  $$("[data-v]").forEach(b => b.classList.toggle("on", b.dataset.v === x));
+  render();
+}
+$$("[data-v]").forEach(b => b.onclick = () => setView(b.dataset.v));
+$("#add").onclick = () => $("#file").click();
+$("#file").onchange = e => {
+  [...e.target.files].forEach(f => {
+    const it = { file: f, url: URL.createObjectURL(f), title: f.name.replace(/\.[^.]+$/, ""), size: f.size, dur: 0, thumb: "", fav: false };
+    vids.push(it); thumb(it);
+  });
+  e.target.value = ""; render();
+};
+$("#sbtn").onclick = () => { $("#q").hidden = !$("#q").hidden; if (!$("#q").hidden) $("#q").focus(); };
+$("#q").oninput = render;
+$("#gbtn").onclick = () => askName(() => toast("Prénom enregistré."), true);
+
+/* ---------- Lecture ---------- */
+function openPlayer() {
+  $("#ptitle").textContent = cur ? cur.title : "BeeWatsh";
+  $("#back").hidden = !isHost;
+  show("player");
+}
+function play(it) {
+  if (ch && !isHost) return;
+  isHost = true; cur = it; v.srcObject = null; v.src = it.url; v.controls = true;
+  if (!hist.includes(it)) hist.unshift(it);
+  openPlayer(); v.play().catch(() => {}); ui();
+}
+$("#back").onclick = () => { show("home"); render(); };
+$("#mopen").onclick = openPlayer;
+$("#mp").onclick = () => v.paused ? v.play() : v.pause();
+$("#mx").onclick = () => { v.pause(); v.removeAttribute("src"); v.load(); cur = null; ui(); };
+v.onplay = () => $("#mp").textContent = "❚❚";
+v.onpause = () => $("#mp").textContent = "▶";
+v.ontimeupdate = () => { if (cur && v.duration) $("#mtime").textContent = dur(v.currentTime) + " / " + dur(v.duration); };
+$("#fs").onclick = () => { const s = $("#stage"); (s.requestFullscreen || s.webkitRequestFullscreen || (() => {})).call(s); };
+
+/* ---------- Inviter ---------- */
+function shareLink() {
+  if (navigator.share) navigator.share({ title: "BeeWatsh", text: "Viens regarder avec moi sur BeeWatsh", url: link }).catch(() => {});
+  else copy(link);
+}
+function copy(t) { (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(() => toast("Copié."), () => toast(t)); }
+function invite() {
+  if (ch) return openPlayer();
+  if (!cur || v.readyState < 1) return toast("Attends que la vidéo soit chargée.");
+  askName(() => {
+    stream = v.captureStream ? v.captureStream() : v.mozCaptureStream ? v.mozCaptureStream() : null;
+    if (!stream) return toast("Ce navigateur ne peut pas diffuser la vidéo. Utilise Chrome.");
+    code = String(Math.floor(100000 + Math.random() * 900000));
+    link = location.origin + location.pathname + "#" + code;
+    openPlayer(); shareLink(); connect();
+    if (navigator.wakeLock) navigator.wakeLock.request("screen").catch(() => {});
+  });
+}
+$$(".inv").forEach(b => b.onclick = invite);
+$("#c1").onclick = () => copy("BeeWatsh-" + code);
+$("#c2").onclick = () => copy(link);
+
+/* ---------- Rejoindre ---------- */
+if (location.hash.length > 1) show("joinscr");
+$("#join").onclick = () => askName(() => {
+  code = location.hash.slice(1); isHost = false; v.controls = false;
+  $("#ptitle").textContent = "BeeWatsh"; $("#back").hidden = true;
+  show("player"); connect();
+});
+
+/* ---------- Salon ---------- */
+function connect() {
+  if (SUPABASE_URL.startsWith("COLLE")) return toast("Il manque l’URL et la clé Supabase dans le fichier.");
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  ch = sb.channel("bw-" + code, { config: { broadcast: { self: false }, presence: { key: me.id } } });
+  ch.on("broadcast", { event: "sig" }, ({ payload }) => onSig(payload))
+    .on("broadcast", { event: "chat" }, ({ payload }) => msg(payload.n, payload.t, payload.h))
+    .on("presence", { event: "sync" }, () => {
+      const n = Object.keys(ch.presenceState()).length - 1;
+      $("#badge").hidden = false; $("#badge").textContent = n + (n > 1 ? " amis" : " ami");
+    })
+    .on("presence", { event: "leave" }, ({ key }) => { if (pcs[key]) { pcs[key].close(); delete pcs[key]; } })
+    .subscribe(async st => {
+      if (st === "SUBSCRIBED") {
+        await ch.track({ n: me.name });
+        $("#solo").hidden = true; $("#live").hidden = false; ui();
+        $("#rname").textContent = "BeeWatsh-" + code; $("#rlink").textContent = location.origin + location.pathname + "#" + code;
+        if (isHost) { sig({ to: "all", type: "ready" }); sys("Salon ouvert. Lance la vidéo : tes amis la voient en direct."); }
+        else { sys("Connexion à l’hôte…"); sig({ to: "host", type: "hello" }); }
+      } else if (st === "CHANNEL_ERROR" || st === "TIMED_OUT") toast("Connexion impossible. Vérifie l’URL et la clé Supabase.");
+    });
+}
+const sig = m => ch.send({ type: "broadcast", event: "sig", payload: { ...m, from: me.id } });
+
+/* ---------- Diffusion WebRTC ---------- */
+function mkpc(dest) {
+  const pc = new RTCPeerConnection({ iceServers: ICE });
+  pc.q = [];
+  pc.onicecandidate = e => e.candidate && sig({ to: dest, type: "ice", c: e.candidate });
+  pc.onconnectionstatechange = () => { if (pc.connectionState === "failed") sys("Une connexion a échoué (réseau bloqué). Il faudra un serveur TURN."); };
+  return pc;
+}
+async function setRemote(pc, d) { await pc.setRemoteDescription(d); pc.q.splice(0).forEach(c => pc.addIceCandidate(c)); }
+async function onSig(p) {
+  if (p.to !== me.id && p.to !== "all" && !(p.to === "host" && isHost)) return;
+  if (p.type === "hello" && isHost) {
+    if (pcs[p.from]) pcs[p.from].close();
+    const pc = pcs[p.from] = mkpc(p.from);
+    stream.getTracks().forEach(t => pc.addTrack(t, stream));
+    await pc.setLocalDescription(await pc.createOffer());
+    sig({ to: p.from, type: "offer", sdp: pc.localDescription });
+  } else if (p.type === "ready" && !isHost && !gpc) {
+    sig({ to: "host", type: "hello" });
+  } else if (p.type === "offer" && !isHost) {
+    if (gpc) gpc.close();
+    gpc = mkpc("host");
+    gpc.ontrack = e => { v.srcObject = e.streams[0]; v.play().catch(() => { v.controls = true; sys("Appuie sur ▶ pour lancer la lecture."); }); };
+    await setRemote(gpc, p.sdp);
+    await gpc.setLocalDescription(await gpc.createAnswer());
+    sig({ to: "host", type: "answer", sdp: gpc.localDescription });
+    sys("Connecté. La vidéo arrive.");
+  } else if (p.type === "answer" && isHost && pcs[p.from]) {
+    await setRemote(pcs[p.from], p.sdp);
+  } else if (p.type === "ice") {
+    const pc = isHost ? pcs[p.from] : gpc;
+    if (!pc) return;
+    pc.remoteDescription ? pc.addIceCandidate(p.c) : pc.q.push(p.c);
+  }
+}
+
+/* ---------- Chat ---------- */
+const now = () => new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
+function msg(n, t, h) {
+  const m = el("div", "m"), a = el("div", "av", n.slice(0, 1).toUpperCase()), b = el("div"), top = el("div");
+  a.style.background = hue(n);
+  top.append(el("b", "", n), el("small", "", h || now()));
+  b.append(top, el("div", "", t));
+  m.append(a, b); $("#chat").append(m); $("#chat").scrollTop = 1e9;
+}
+function sys(t) { $("#chat").append(el("div", "sys", t)); $("#chat").scrollTop = 1e9; }
+$("#send").onsubmit = e => {
+  e.preventDefault();
+  const t = $("#msg").value.trim();
+  if (!t || !ch) return;
+  const h = now();
+  ch.send({ type: "broadcast", event: "chat", payload: { n: me.name, t, h } });
+  msg(me.name, t, h); $("#msg").value = "";
+};
+["😂", "🔥", "❤️", "😎", "👏", "😮"].forEach(x => {
+  const b = el("button", "", x); b.type = "button";
+  b.onclick = () => { $("#msg").value += x; $("#msg").focus(); };
+  $("#emos").append(b);
+});
+$("#emo").onclick = () => $("#emos").hidden = !$("#emos").hidden;
+$$(".t2 button").forEach(b => b.onclick = () => {
+  $$(".t2 button").forEach(x => x.classList.toggle("on", x === b));
+  $("#chat").hidden = b.dataset.t !== "chat"; $("#call").hidden = b.dataset.t !== "call";
+});
+render();
+</script>
+</body>
+</html>
