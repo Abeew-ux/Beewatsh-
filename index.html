@@ -86,6 +86,7 @@ video{width:100%;aspect-ratio:16/9;display:block;background:#000}
 #go{background:var(--y);color:#2a1a00;border-radius:14px;width:50px;font-size:20px;flex:none}
 #joinscr{justify-content:center;gap:16px;padding:24px}
 #joinscr p{color:var(--mute)}
+#snd{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);padding:10px 16px}
 #toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#fff;color:#111;padding:10px 16px;border-radius:99px;font-weight:600;z-index:9;max-width:90%}
 dialog{margin:auto;background:var(--card);color:var(--t);border:1px solid var(--line);border-radius:18px;padding:20px;width:min(340px,90%)}
 dialog::backdrop{background:#000a}
@@ -142,7 +143,7 @@ dialog form{display:flex;flex-direction:column;gap:12px}
     <div><b id="ptitle">BeeWatsh</b><small>👑 Regardez ensemble</small></div>
     <button class="rnd" id="fs" aria-label="Plein écran">⛶</button>
   </div>
-  <div id="stage"><video id="v" playsinline></video><span id="badge" hidden></span></div>
+  <div id="stage"><video id="v" playsinline></video><span id="badge" hidden></span><button id="snd" class="btn" hidden>🔊 Activer le son</button></div>
   <div id="solo">
     <button class="btn inv">👥 Inviter des amis</button>
     <span>Pour 2 à 4 amis. Garde ton écran allumé pendant le film.</span>
@@ -294,6 +295,11 @@ function invite() {
   askName(() => {
     stream = v.captureStream ? v.captureStream() : v.mozCaptureStream ? v.mozCaptureStream() : null;
     if (!stream) return toast("Ce navigateur ne peut pas diffuser la vidéo. Utilise Chrome.");
+    stream.onaddtrack = e => Object.entries(pcs).forEach(async ([id, pc]) => {
+      pc.addTrack(e.track, stream);
+      await pc.setLocalDescription(await pc.createOffer());
+      sig({ to: id, type: "offer", reneg: true, sdp: pc.localDescription });
+    });
     code = String(Math.floor(100000 + Math.random() * 900000));
     link = location.origin + location.pathname + "#" + code;
     openPlayer(); shareLink(); connect();
@@ -328,6 +334,7 @@ function connect() {
       if (st === "SUBSCRIBED") {
         await ch.track({ n: me.name });
         $("#solo").hidden = true; $("#live").hidden = false; ui();
+        if (isHost) $("#back").hidden = true;
         $("#rname").textContent = "BeeWatsh-" + code; $("#rlink").textContent = location.origin + location.pathname + "#" + code;
         if (isHost) { sig({ to: "all", type: "ready" }); sys("Salon ouvert. Lance la vidéo : tes amis la voient en direct."); }
         else { sys("Connexion à l’hôte…"); sig({ to: "host", type: "hello" }); }
@@ -356,9 +363,14 @@ async function onSig(p) {
   } else if (p.type === "ready" && !isHost && !gpc) {
     sig({ to: "host", type: "hello" });
   } else if (p.type === "offer" && !isHost) {
-    if (gpc) gpc.close();
-    gpc = mkpc("host");
-    gpc.ontrack = e => { v.srcObject = e.streams[0]; v.play().catch(() => { v.controls = true; sys("Appuie sur ▶ pour lancer la lecture."); }); };
+    if (!(p.reneg && gpc)) {
+      if (gpc) gpc.close();
+      gpc = mkpc("host");
+      gpc.ontrack = e => {
+        v.muted = true; v.srcObject = e.streams[0]; $("#snd").hidden = false;
+        v.play().catch(() => { v.controls = true; sys("Appuie sur ▶ pour lancer la lecture."); });
+      };
+    }
     await setRemote(gpc, p.sdp);
     await gpc.setLocalDescription(await gpc.createAnswer());
     sig({ to: "host", type: "answer", sdp: gpc.localDescription });
@@ -400,6 +412,14 @@ $$(".t2 button").forEach(b => b.onclick = () => {
   $$(".t2 button").forEach(x => x.classList.toggle("on", x === b));
   $("#chat").hidden = b.dataset.t !== "chat"; $("#call").hidden = b.dataset.t !== "call";
 });
+let resume = false;
+document.addEventListener("visibilitychange", () => {
+  if (!isHost || !ch) return;
+  if (document.hidden) resume = !v.paused;
+  else if (resume && v.paused) { v.play().catch(() => toast("Appuie sur ▶ pour reprendre le film.")); resume = false; }
+});
+$("#snd").onclick = () => { v.muted = false; v.play().catch(() => {}); $("#snd").hidden = true; };
+v.onclick = () => { if (!isHost && v.paused) v.play().catch(() => {}); };
 render();
 </script>
 </body>
