@@ -87,6 +87,10 @@ video{width:100%;aspect-ratio:16/9;display:block;background:#000}
 #joinscr{justify-content:center;gap:16px;padding:24px}
 #joinscr p{color:var(--mute)}
 #snd{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);padding:10px 16px}
+#vctl{display:flex;gap:8px;width:100%}
+#vctl button{flex:1}
+#vquit{background:var(--card);border:1px solid var(--line);color:var(--t);border-radius:16px;padding:15px 18px;font-weight:700}
+#vlist{width:100%;display:flex;flex-direction:column;gap:10px;align-items:flex-start;color:var(--t)}
 #toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#fff;color:#111;padding:10px 16px;border-radius:99px;font-weight:600;z-index:9;max-width:90%}
 dialog{margin:auto;background:var(--card);color:var(--t);border:1px solid var(--line);border-radius:18px;padding:20px;width:min(340px,90%)}
 dialog::backdrop{background:#000a}
@@ -155,7 +159,12 @@ dialog form{display:flex;flex-direction:column;gap:12px}
     </div>
     <div class="t2"><button data-t="chat" class="on">💬 Chat</button><button data-t="call">📞 Appel vocal</button></div>
     <div id="chat" aria-live="polite"></div>
-    <div id="call" hidden>L’appel vocal arrive bientôt.<br>En attendant, utilise le chat.</div>
+    <div id="call" hidden>
+      <button class="btn" id="vjoin">🎙 Rejoindre l’appel</button>
+      <small>Mets des écouteurs pour éviter l’écho avec le film.</small>
+      <div id="vlist"></div>
+      <div id="vctl" hidden><button class="btn" id="vmute">🎙 Micro actif</button><button id="vquit">Quitter l’appel</button></div>
+    </div>
     <div id="emos" hidden></div>
     <form id="send"><button type="button" id="emo" aria-label="Emojis">🙂</button><input id="msg" placeholder="Écrire un message…" autocomplete="off"><button id="go" aria-label="Envoyer">➤</button></form>
   </div>
@@ -329,7 +338,7 @@ function connect() {
       const n = Object.keys(ch.presenceState()).length - 1;
       $("#badge").hidden = false; $("#badge").textContent = n + (n > 1 ? " amis" : " ami");
     })
-    .on("presence", { event: "leave" }, ({ key }) => { if (pcs[key]) { pcs[key].close(); delete pcs[key]; } })
+    .on("presence", { event: "leave" }, ({ key }) => { if (pcs[key]) { pcs[key].close(); delete pcs[key]; } dropv(key); })
     .subscribe(async st => {
       if (st === "SUBSCRIBED") {
         await ch.track({ n: me.name });
@@ -381,8 +390,76 @@ async function onSig(p) {
     const pc = isHost ? pcs[p.from] : gpc;
     if (!pc) return;
     pc.remoteDescription ? pc.addIceCandidate(p.c) : pc.q.push(p.c);
+  } else if (p.type === "vjoin" && mic && p.from !== me.id) {
+    vnames[p.from] = p.n;
+    if (me.id < p.from) voffer(p.from, p.n); else sig({ to: p.from, type: "vready", n: me.name });
+  } else if (p.type === "vready" && mic) {
+    voffer(p.from, p.n);
+  } else if (p.type === "voffer" && mic) {
+    const pc = mkv(p.from, p.n);
+    await setRemote(pc, p.sdp);
+    await pc.setLocalDescription(await pc.createAnswer());
+    sig({ to: p.from, type: "vanswer", sdp: pc.localDescription });
+  } else if (p.type === "vanswer" && vpcs[p.from]) {
+    await setRemote(vpcs[p.from], p.sdp);
+  } else if (p.type === "vice") {
+    const pc = vpcs[p.from];
+    if (!pc) return;
+    pc.remoteDescription ? pc.addIceCandidate(p.c) : pc.q.push(p.c);
+  } else if (p.type === "vleave") {
+    dropv(p.from);
   }
 }
+
+/* ---------- Appel vocal (chaque personne relie son micro à chaque autre) ---------- */
+let mic, vpcs = {}, vnames = {}, muted = false;
+function vrender() {
+  $("#vjoin").hidden = !!mic; $("#vctl").hidden = !mic;
+  const l = $("#vlist"); l.textContent = "";
+  if (mic) [me.name, ...Object.keys(vpcs).map(k => vnames[k] || "Ami")].forEach(n => {
+    const m = el("div", "m"), a = el("div", "av", n.slice(0, 1).toUpperCase());
+    a.style.background = hue(n); m.append(a, el("b", "", n)); l.append(m);
+  });
+  $("#vmute").textContent = muted ? "🔇 Micro coupé" : "🎙 Micro actif";
+}
+function dropv(id) {
+  if (vpcs[id]) { vpcs[id].close(); delete vpcs[id]; }
+  const a = document.getElementById("a-" + id); if (a) a.remove();
+  vrender();
+}
+function mkv(peer, name) {
+  if (vpcs[peer]) vpcs[peer].close();
+  vnames[peer] = name || vnames[peer];
+  const pc = vpcs[peer] = new RTCPeerConnection({ iceServers: ICE });
+  pc.q = [];
+  mic.getTracks().forEach(t => pc.addTrack(t, mic));
+  pc.onicecandidate = e => e.candidate && sig({ to: peer, type: "vice", c: e.candidate });
+  pc.ontrack = e => {
+    let a = document.getElementById("a-" + peer);
+    if (!a) { a = document.createElement("audio"); a.id = "a-" + peer; a.autoplay = true; document.body.append(a); }
+    a.srcObject = e.streams[0]; a.play().catch(() => {});
+  };
+  pc.onconnectionstatechange = () => { if (vpcs[peer] === pc && pc.connectionState === "failed") { toast("Appel vocal impossible avec " + (vnames[peer] || "un ami") + " (réseau bloqué)."); dropv(peer); } };
+  vrender();
+  return pc;
+}
+async function voffer(peer, name) {
+  const pc = mkv(peer, name);
+  await pc.setLocalDescription(await pc.createOffer());
+  sig({ to: peer, type: "voffer", n: me.name, sdp: pc.localDescription });
+}
+$("#vjoin").onclick = async () => {
+  try { mic = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true } }); }
+  catch (e) { return toast("Micro refusé. Autorise le micro pour rejoindre l’appel."); }
+  muted = false; vrender();
+  sig({ to: "all", type: "vjoin", n: me.name });
+};
+$("#vmute").onclick = () => { muted = !muted; mic.getAudioTracks().forEach(t => t.enabled = !muted); vrender(); };
+$("#vquit").onclick = () => {
+  sig({ to: "all", type: "vleave" });
+  Object.keys(vpcs).forEach(dropv);
+  mic.getTracks().forEach(t => t.stop()); mic = null; vrender();
+};
 
 /* ---------- Chat ---------- */
 const now = () => new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
