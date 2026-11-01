@@ -150,7 +150,7 @@ dialog form{display:flex;flex-direction:column;gap:12px}
     <button class="rnd" id="cadd" aria-label="Ajouter des vidéos du téléphone">＋</button>
   </header>
   <input id="cq" placeholder="Rechercher un film ou un animé" hidden>
-  <div id="cbody"><div id="hero" hidden></div><div id="rows"></div></div>
+  <div id="cbody"><button class="gh" id="jcode" style="margin:8px 16px 0;width:calc(100% - 32px)">🔑 Rejoindre un salon avec un code</button><div id="hero" hidden></div><div id="rows"></div></div>
   <footer>
     <nav class="tabs">
       <button data-go="cat" class="on"><span>🏠</span>Accueil</button>
@@ -284,6 +284,10 @@ const SUPABASE_URL = "https://vgnxmwwvdgyqmthoovwf.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZnbnhtd3d2ZGd5cW10aG9vdndmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4NDMxMDAsImV4cCI6MjEwNjQxOTEwMH0.sppNK0RfplG2EbS5sma4aFWEozzZBOM_At9XKx_jCwM";
 // 2) Si certains amis n’arrivent pas à se connecter, ajoute ici un serveur TURN
 const ICE = [{ urls: "stun:stun.l.google.com:19302" }];
+// 3) Adresse publique de BeeWatsh (celle de GitHub Pages). Utilisée dans l’appli Android pour les liens d’invitation.
+const PUBLIC_URL = "";
+const IN_APP = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+const shareBase = () => PUBLIC_URL || (IN_APP ? "" : location.origin + location.pathname);
 
 const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
 const v = $("#v");
@@ -393,8 +397,9 @@ $("#fs").onclick = () => { const s = $("#stage"); (s.requestFullscreen || s.webk
 
 /* ---------- Inviter ---------- */
 function shareLink() {
-  if (navigator.share) navigator.share({ title: "BeeWatsh", text: "Viens regarder avec moi sur BeeWatsh", url: link }).catch(() => {});
-  else copy(link);
+  const text = "Viens regarder avec moi sur BeeWatsh. Code du salon : " + code;
+  if (navigator.share) navigator.share(link ? { title: "BeeWatsh", text, url: link } : { title: "BeeWatsh", text }).catch(() => {});
+  else copy(link || code);
 }
 function copy(t) { (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(() => toast("Copié."), () => toast(t)); }
 function invite() {
@@ -413,21 +418,32 @@ function invite() {
       mode = "cast";
     }
     code = String(Math.floor(100000 + Math.random() * 900000));
-    link = location.origin + location.pathname + "#" + code;
+    link = shareBase() ? shareBase() + "#" + code : "";
     openPlayer(); shareLink(); connect();
     if (navigator.wakeLock) navigator.wakeLock.request("screen").catch(() => {});
   });
 }
 $$(".inv").forEach(b => b.onclick = invite);
 $("#c1").onclick = () => copy("BeeWatsh-" + code);
-$("#c2").onclick = () => copy(link);
+$("#c2").onclick = () => copy(link || (shareBase() ? shareBase() + "#" + code : code));
 
 /* ---------- Rejoindre ---------- */
 if (location.hash.length > 1) show("joinscr");
-$("#join").onclick = () => askName(() => {
-  code = location.hash.slice(1); isHost = false; v.controls = false;
-  $("#ptitle").textContent = "BeeWatsh"; $("#back").hidden = true;
-  show("player"); connect();
+function joinRoom(c) {
+  askName(() => {
+    code = c; isHost = false; v.controls = false;
+    $("#ptitle").textContent = "BeeWatsh"; $("#back").hidden = true;
+    show("player"); connect();
+  });
+}
+$("#join").onclick = () => joinRoom(location.hash.slice(1));
+$("#jcode").onclick = () => askEdit({
+  title: "Code du salon", hint: "Le code à 6 chiffres que ton ami t’a envoyé.", type: "tel", max: 12, ph: "123456",
+  onOk: x => {
+    const c = x.replace(/\D/g, "");
+    if (c.length < 4) { $("#eerr").textContent = "Code invalide."; return false; }
+    setTimeout(() => joinRoom(c), 0); return true;
+  }
 });
 
 /* ---------- Salon ---------- */
@@ -451,7 +467,7 @@ function connect() {
         await ch.track({ n: me.name });
         $("#solo").hidden = true; $("#live").hidden = false; ui();
         if (isHost) $("#back").hidden = true;
-        $("#rname").textContent = "BeeWatsh-" + code; $("#rlink").textContent = location.origin + location.pathname + "#" + code;
+        $("#rname").textContent = "BeeWatsh-" + code; $("#rlink").textContent = link || (shareBase() ? shareBase() + "#" + code : "Code : " + code);
         if (isHost) { sig({ to: "all", type: "ready" }); sys(mode === "link" ? "Salon ouvert. Tes amis chargent la même vidéo, tout reste synchronisé." : "Salon ouvert. Lance la vidéo : tes amis la voient en direct."); }
         else { sys("Connexion au salon…"); sig({ to: "host", type: "hello" }); ch.send({ type: "broadcast", event: "ask", payload: {} }); }
       } else if (st === "CHANNEL_ERROR" || st === "TIMED_OUT") toast("Connexion impossible. Vérifie l’URL et la clé Supabase.");

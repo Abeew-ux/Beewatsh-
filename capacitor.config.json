@@ -1,0 +1,6 @@
+{
+  "appId": "app.beewatsh.player",
+  "appName": "BeeWatsh",
+  "webDir": "www",
+  "server": { "androidScheme": "https" }
+}
